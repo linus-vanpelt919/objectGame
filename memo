@@ -1,0 +1,36 @@
+ゲームオーバーになったときに画面が切り替わらず、エラーになる問題に直面
+原因はelseの処理をしていなかったこと
+
+
+間違ってるコード
+if($_SESSION['human']->getHp() <= 0) {//勇者のHPがゼロ
+                debug('勇者のHPがゼロになりました');
+                gameOver();
+            }
+            //モンスターのHPがゼロ　次のモンスター出現
+                if($_SESSION['monster']->getHp() <= 0){
+                    debug('モンスターを倒した!!');
+                    History::set($_SESSION['monster']->getName().'を倒した！');
+                    debug('新しいモンスターの出現');
+                    createMonster();
+                    $_SESSION['knockDownCount'] += 1;
+                }
+
+
+
+
+
+
+正しいコード
+if($_SESSION['human']->getHp() <= 0) {//勇者のHPがゼロ
+                debug('勇者のHPがゼロになりました');
+                gameOver();
+            }else{//モンスターのHPがゼロ　次のモンスター出現
+                if($_SESSION['monster']->getHp() <= 0){
+                    debug('モンスターを倒した!!');
+                    History::set($_SESSION['monster']->getName().'を倒した！');
+                    debug('新しいモンスターの出現');
+                    createMonster();
+                    $_SESSION['knockDownCount'] += 1;
+                }
+            }
